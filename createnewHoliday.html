@@ -1,0 +1,134 @@
+<html>
+
+<head>
+<meta name='viewport' content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type = "text/css" href="stylesheet.css">
+<title>Your Cal</title>
+<style>
+	h1 {
+		color: #787;
+	}
+</style>
+	
+</head>
+
+
+<body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script language="javascript">
+	function get_holiday()
+	{
+		request = new XMLHttpRequest();
+		alert("before open");
+		request.open("GET", "https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=US&year=2021", true);
+
+		request.onreadystatechange = function () {
+			// alert("in readyState");
+
+			if (request.readyState == 4 && request.status == 200) {
+					all = request.responseText;
+					// alert(all);
+					document.getElementById('response').innerHTML = all;
+
+					holiday = JSON.parse(all);
+					
+					// alert(holiday["response"]["holidays"].length);
+
+
+					for (var i = 0; i < holiday["response"]["holidays"].length; i++) {
+					//alert(holiday["response"]["holidays"][0]["name"]);
+
+						document.getElementById("names").innerHTML += "<ul>"+ holiday["response"]["holidays"][i]["name"] + "<li>" + holiday["response"]["holidays"][i]["date"]["iso"] + "</li><li>" +  holiday["response"]["holidays"][i]["type"] + "</li></ul>";
+					}
+			}
+
+		}
+		request.send();
+		alert("after send");
+
+	}
+
+	get_holiday();
+</script>
+
+
+
+<h1>Your Calendar!</h1>
+
+<p>Choose Your Holiday(s) or Make Your Own!</p>
+
+
+
+<form method='post'  action='http://localhost:8080/process' id ="user_info">
+		<p>Choose a Holiday</p>
+		First Name: <input type="text" name="fname" id="fname"><br>
+		<br> 
+		Region: <input type="text" name="region" id="region" value="US"><br>
+		<br> 
+		<input type=button value=Submit id=sub_button onclick="get_holiday(document.getElementById('region').value)"><br/>
+
+		<p>Create New Holiday</p>
+		Holiday Name: <input type="text" name="holidayName"><br />
+		<br> 
+		Date: <input type="text" name="date"><br />
+		<br>
+		Holiday Type: <input type="text" name="holidayType"><br />
+		<br> 
+	<input type="submit" value="Submit">
+
+
+</form>
+
+<div id=names>
+	The holidays: 
+	<br>
+</div>
+
+<div id=response>
+
+</div>
+
+
+
+<script language="javascript">
+
+	function get_holiday(region)
+	{
+		request = new XMLHttpRequest();
+		alert("before open");
+		request.open("GET", "https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=" + region + "&year=2021", true);
+		alert("https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=" + region + "&year=2021");
+		request.onreadystatechange = function () {
+			// alert("in readyState");
+
+			if (request.readyState == 4 && request.status == 200) {
+					all = request.responseText;
+					// alert(all);
+
+					holiday = JSON.parse(all);
+					
+					// alert(holiday["response"]["holidays"].length);
+
+					document.getElementById("names").innerHTML = "";
+					for (var i = 0; i < holiday["response"]["holidays"].length; i++) {
+					//alert(holiday["response"]["holidays"][0]["name"]);
+
+						document.getElementById("names").innerHTML += "<ul>"+ holiday["response"]["holidays"][i]["name"] + "<li>" + holiday["response"]["holidays"][i]["date"]["iso"] + "</li><li>" +  holiday["response"]["holidays"][i]["type"] + "</li></ul>";
+					}
+			}
+
+
+		}
+		request.send();
+		alert("after send");
+
+	}
+
+	// get_holiday(document.getElementById("region").value);
+</script>
+
+</body>
+
+
+</html>
