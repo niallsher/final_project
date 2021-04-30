@@ -15,7 +15,7 @@ async function main()
 	var data = await mongo.db("calendars");
 	var collection = await data.collection("events");
 
-	var theQuery2 = {fname: /^/ };
+	var theQuery2 = {firstname: /^/ };
 	await collection.deleteMany(theQuery2);
 	// await collection.insertOne(theQuery);
 

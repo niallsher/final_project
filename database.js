@@ -2,20 +2,27 @@
 var http = require('http');
 var fs = require('fs');
 var qs = require('querystring');
+var path = require('path')
+var express = require('express');
+var app = express();
 
 
 const { MongoClient } = require('mongodb');
 
 const url = "mongodb+srv://niallsheridan:ryder56nbs@cluster0.ytcqd.mongodb.net/calendars?retryWrites=true&w=majority";
 
-const mongo = new MongoClient(url, {useUnifiedTopology: true });
+const uri = process.env.MONGODB_URI;
+
+const mongo = new MongoClient(uri, {useUnifiedTopology: true });
 
 function main()
 {
+	app.use(express.static(path.join(__dirname, '/')));
+
 	httpServer = http.createServer(function (req, res) {
 		if(req.url == "/")
 		{
-			file = 'createnewHoliday.html'; //this file name might need to be changed just the one i created
+			file = 'index.html'; //this file name might need to be changed just the one i created
 			fs.readFile(file, function(err, txt) {
 				res.writeHead(200, {'Content-Type': 'text/html'});
 				res.write(txt);
