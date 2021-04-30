@@ -43,7 +43,7 @@ async function parseNew(pdata, res)
 
 				for(i = 0; i < items.length; i++) {
 					console.log(i + ": " + items[i].date);
-					res.write(items[i].holidayname + ", " + items[i].date + ", " + items[i].type "<br/>");
+					res.write(items[i].holidayname + ", " + items[i].date + ", " + items[i].type + "<br/>");
 				}
 			}
 		});
