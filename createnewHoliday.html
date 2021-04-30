@@ -52,16 +52,25 @@
 	//get_holiday();
 </script>
 
+<header>
+	<br>
+<a class = "logoBut" href ="index.html" align ="left"> 
+				   <img id = "logo" align="left" src="logo.jpg">
+			   </a>
+			   <h1> &nbsp; Holiday Calendar </h1>
+		   <ul id="nav">
+			   <li><a  href="searchHoliday.html">Search</a></li>
+			   <li><a href="createNewHoliday.html" class="current">Create</a></li>
+			   <li><a href="calendar.html">Calendar</a></li>
+		   </ul>
 
+</header>
 
-<h1>Your Calendar!</h1>
-
-<p>Choose Your Holiday(s) or Make Your Own!</p>
+<p>Add your own holidays to your calendar!</p>
 
 
 
 <form method='post'  action='http://localhost:8080/process' id ="addDay">
-		<p>Create New Holiday</p>
         User Name: <input type="text" name="user" id="user" value='testUser1'><br>
     	First Name: <input type="text" name="fname" id="fname" value="test"><br>
         Holiday Name: <input type="text" name="holidayName" id="holidayName"><br />
@@ -89,6 +98,7 @@
                 s=s+"</select>"
                 document.writeln(s);
             </script>
+            <br>
             <label for="month">Month:</label>
         		<script language="JavaScript">
         			m='<select name="month" id="month">';
@@ -99,6 +109,7 @@
         			m=m+"</select>"
         			document.writeln(m);
         		</script>
+                <br>
             <label for="day">Day:</label>
             		<script language="JavaScript">
             			d='<select name="day" id="day">';
