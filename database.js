@@ -1,26 +1,118 @@
 
-var http = require('http'); //require needed modules
+var http = require('http');
 var fs = require('fs');
 var qs = require('querystring');
-const mongo = require('mongodb').MongoClient;
 
-const url = 
-"mongodb+srv://niallsheridan:ryder56nbs@cluster0.ytcqd.mongodb.net/calendars?retryWrites=true&w=majority";
 
-user="test";
-fName = "test";
-holidayName="test";
-day = 0;
-month = 0;
-year = 0000;
-type = "none";
+const { MongoClient } = require('mongodb');
 
-mongo.connect(url, { useUnifiedTopology: true }, function(err, db) { //access mongo
-    if(err) { return console.log(err); } //check error
-    var dbo = db.db("calendars"); //specify what data will be accessed
-    var coll = dbo.collection('events');
-     var newData = {"user":user, "fName":fName, "holidayName":holidayName, "day":day, "month":month, "type": type};
-    collection.insertOne(newData);
-})
+const url = "mongodb+srv://niallsheridan:ryder56nbs@cluster0.ytcqd.mongodb.net/calendars?retryWrites=true&w=majority";
+
+const mongo = new MongoClient(url, {useUnifiedTopology: true });
+
+function main()
+{
+	httpServer = http.createServer(function (req, res) {
+		if(req.url == "/")
+		{
+			file = 'createnewHoliday.html'; //this file name might need to be changed just the one i created
+			fs.readFile(file, function(err, txt) {
+				res.writeHead(200, {'Content-Type': 'text/html'});
+				res.write(txt);
+				res.end();
+			});
+		}
+		else if (req.url == "/process")
+		{
+			res.writeHead(200, {'Content-Type': 'text/html'});
+			res.write("Selected data:<br>");
+			pdata = "";
+			req.on('data', data => {
+				pdata += data.toString();
+			});
+
+			req.on('end', ()=> {
+				parseNew(pdata, res);
+			});
+
+			req.on('close', function(err) {console.log("Here")});
+		} else {
+			res.writeHead(200, {'Content-Type': 'text/html'});
+			res.write("Unknown page request");
+			res.end();
+		}
+	}).listen(8080);
+
+}
+
+
+async function parseNew(pdata, res)
+{
+		pdata = qs.parse(pdata);
+
+		firstname = pdata['fname'];
+		holidayName = pdata['holidayName'];
+		datestr = pdata['year'] + "-" + pdata['month'] + "-" + pdata['day'];
+		date = datestr;
+		theQuery = {firstname, holidayName, date};
+
+		console.log(pdata);
+		console.log("fname: " + firstname);
+		console.log("hname: " + holidayName);
+		console.log("date: " + date);
+		console.log("query: " + JSON.stringify(theQuery));
+
+
+
+
+
+	
+		await mongo.connect();
+
+		var data = await mongo.db("calendars");
+		var collection = await data.collection("events");
+
+
+    	await collection.insertOne(theQuery);
+		
+		res.end();
+		mongo.close();
+}
+
+
+// function create(req, res)
+// {
+// 	if(req.url == "/")
+// 	{
+// 		file = 'createnewHoliday.html'; //this file name might need to be changed just the one i created
+// 		fs.readFile(file, function(err, txt) {
+// 			res.writeHead(200, {'Content-Type': 'text/html'});
+// 			res.write(txt);
+// 			res.end();
+// 		});
+// 	}
+// 	else if (req.url == "/process")
+// 	{
+// 		res.writeHead(200, {'Content-Type': 'text/html'});
+// 		res.write("Selected data:<br>");
+// 		pdata = "";
+// 		req.on('data', data => {
+// 			pdata += data.toString();
+// 		});
+
+// 		req.on('end', ()=> {
+// 			parseNew(pdata, res);
+// 		});
+
+// 		req.on('close', function(err) {console.log("Here")});
+// 	} else {
+// 		res.writeHead(200, {'Content-Type': 'text/html'});
+// 		res.write("Unknown page request");
+// 		res.end();
+// 	}
+// }
+
+
 
 main();
+
