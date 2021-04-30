@@ -17,39 +17,39 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script language="javascript">
-	function get_holiday()
-	{
-		request = new XMLHttpRequest();
-		alert("before open");
-		request.open("GET", "https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=US&year=2021", true);
+	//function get_holiday()
+	//{
+		//request = new XMLHttpRequest();
+		//alert("before open");
+		//request.open("GET", "https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=US&year=2021", true);
 
-		request.onreadystatechange = function () {
+		//request.onreadystatechange = function () {
 			// alert("in readyState");
 
-			if (request.readyState == 4 && request.status == 200) {
-					all = request.responseText;
+			//if (request.readyState == 4 && request.status == 200) {
+					//all = request.responseText;
 					// alert(all);
-					document.getElementById('response').innerHTML = all;
+					//document.getElementById('response').innerHTML = all;
 
-					holiday = JSON.parse(all);
+					//holiday = JSON.parse(all);
 					
 					// alert(holiday["response"]["holidays"].length);
 
 
-					for (var i = 0; i < holiday["response"]["holidays"].length; i++) {
+					//for (var i = 0; i < holiday["response"]["holidays"].length; i++) {
 					//alert(holiday["response"]["holidays"][0]["name"]);
 
-						document.getElementById("names").innerHTML += "<ul>"+ holiday["response"]["holidays"][i]["name"] + "<li>" + holiday["response"]["holidays"][i]["date"]["iso"] + "</li><li>" +  holiday["response"]["holidays"][i]["type"] + "</li></ul>";
-					}
-			}
+						//document.getElementById("names").innerHTML += "<ul>"+ holiday["response"]["holidays"][i]["name"] + "<li>" + holiday["response"]["holidays"][i]["date"]["iso"] + "</li><li>" +  holiday["response"]["holidays"][i]["type"] + "</li></ul>";
+					//}
+			//}
 
-		}
-		request.send();
-		alert("after send");
+		//}
+		//request.send();
+		//alert("after send");
 
-	}
+	//}
 
-	get_holiday();
+	//get_holiday();
 </script>
 
 
@@ -60,28 +60,62 @@
 
 
 
-<form method='post'  action='http://localhost:8080/process' id ="user_info">
-		<p>Choose a Holiday</p>
-		First Name: <input type="text" name="fname" id="fname"><br>
-		<br> 
-		Region: <input type="text" name="region" id="region" value="US"><br>
-		<br> 
-		<input type=button value=Submit id=sub_button onclick="get_holiday(document.getElementById('region').value)"><br/>
-
+<form method='post'  action='http://localhost:8080/process' id ="addDay">
 		<p>Create New Holiday</p>
-		Holiday Name: <input type="text" name="holidayName"><br />
-		<br> 
-		Date: <input type="text" name="date"><br />
-		<br>
-		Holiday Type: <input type="text" name="holidayType"><br />
-		<br> 
+        User Name: <input type="text" name="user" id="user" value='testUser1'><br>
+    	First Name: <input type="text" name="fname" id="fname" value="test"><br>
+        Holiday Name: <input type="text" name="holidayName" id="holidayName"><br />
+        <label for="type">Holiday type:</label>
+        <select name="type" id="type">
+            <option value="none">Not Specified</option>
+            <option value="national">National</option>
+            <option value="religious">Religious</option>
+            <option value="observance">Observance</option>		
+            <option value="local">Local</option>
+        </select>
+        <br>
+        <label for="year">Year:</label>
+            <script language="JavaScript">
+                s='<select name="year" id="year">';
+                for (i=2000; i <= 2020; i++ )
+                {
+                    s=s+"<option value="+i+">"+i+"</option>";
+                }
+                s=s+"<option value=2021 selected>"+2021+"</option>"
+                for (i=2022; i <= 2049; i++ )
+                {
+                    s=s+"<option value="+i+">"+i+"</option>";
+                }
+                s=s+"</select>"
+                document.writeln(s);
+            </script>
+            <label for="month">Month:</label>
+        		<script language="JavaScript">
+        			m='<select name="month" id="month">';
+        			for (i=1; i <= 12; i++ )
+        			{
+        				m=m+"<option value="+i+">"+i+"</option>";
+        			}
+        			m=m+"</select>"
+        			document.writeln(m);
+        		</script>
+            <label for="day">Day:</label>
+            		<script language="JavaScript">
+            			d='<select name="day" id="day">';
+            			for (i=1; i <= 31; i++ )
+            			{
+            				d=d+"<option value="+i+">"+i+"</option>";
+            			}
+            			d=d+"</select>"
+            			document.writeln(d);
+            		</script>
 	<input type="submit" value="Submit">
 
 
 </form>
 
 <div id=names>
-	The holidays: 
+	Added holidays: 
 	<br>
 </div>
 
@@ -92,38 +126,56 @@
 
 
 <script language="javascript">
-
-	function get_holiday(region)
-	{
-		request = new XMLHttpRequest();
-		alert("before open");
-		request.open("GET", "https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=" + region + "&year=2021", true);
-		alert("https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=" + region + "&year=2021");
-		request.onreadystatechange = function () {
+    //onclick="add_holiday(document.getElementById('user').value,document.getElementById('fName').value,document.getElementById('holidayName').value,document.getElementById('year').value,document.getElementById('day').value,document.getElementById('month').value, document.getElementById('type').value)"
+	//function add_holiday(user, name, holidayName, year, day, month, type)
+	//{
+        var http = require('http'); //require needed modules
+        var fs = require('fs');
+        var qs = require('querystring');
+        const mongo = require('mongodb').MongoClient;
+        
+        const url = 
+        "mongodb+srv://niallsheridan:ryder56nbs@cluster0.ytcqd.mongodb.net/calendars?retryWrites=true&w=majority";
+        
+        var query = {"user":user, "fName":fName, "holidayName":holidayName, "day":day, "month":month, "type": type};
+        
+        MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) { //access mongo
+            if(err) { return console.log(err); } //check error
+            var dbo = db.db("calendars"); //specify what data will be accessed
+            var coll = dbo.collection('events');
+             var newData = {"user":user, "fName":fName, "holidayName":holidayName, "day":day, "month":month, "type": type};
+            collection.insertOne(newData);
+        //})
+    //}
+        //request = new XMLHttpRequest();
+		//alert("before open");
+		//request.open("GET", "https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=" + region + "&year=2021", true);
+		//alert("https://calendarific.com/api/v2/holidays?api_key=337eb2e48d08ab8988d7114eea8fe4cd535dd46c&country=" + region + "&year=2021");
+		//request.onreadystatechange = function () {
 			// alert("in readyState");
 
-			if (request.readyState == 4 && request.status == 200) {
-					all = request.responseText;
+			//if (request.readyState == 4 && request.status == 200) {
+					//all = request.responseText;
 					// alert(all);
 
-					holiday = JSON.parse(all);
+					//holiday = JSON.parse(all);
 					
 					// alert(holiday["response"]["holidays"].length);
 
-					document.getElementById("names").innerHTML = "";
-					for (var i = 0; i < holiday["response"]["holidays"].length; i++) {
+					//document.getElementById("names").innerHTML = "";
+					//for (var i = 0; i < holiday["response"]["holidays"].length; i++) {
 					//alert(holiday["response"]["holidays"][0]["name"]);
 
-						document.getElementById("names").innerHTML += "<ul>"+ holiday["response"]["holidays"][i]["name"] + "<li>" + holiday["response"]["holidays"][i]["date"]["iso"] + "</li><li>" +  holiday["response"]["holidays"][i]["type"] + "</li></ul>";
-					}
-			}
+						//document.getElementById("names").innerHTML += "<ul>"+ holiday["response"]["holidays"][i]["name"] + "<li>" + holiday["response"]["holidays"][i]["date"]["iso"] + "</li><li>" +  holiday["response"]["holidays"][i]["type"] + "</li></ul>";
+					//}
+			//}
 
 
-		}
-		request.send();
-		alert("after send");
+		//}
+		//request.send();
+		//alert("after send");
 
-	}
+	//}
 
 	// get_holiday(document.getElementById("region").value);
 </script>
