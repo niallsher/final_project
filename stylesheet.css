@@ -1,69 +1,143 @@
-
-
-body{
-    margin-left: ;
-    margin-right ;
-    font-size: ;
-    text-align: center;
-    background-color: ;
-    color: ;
-    font-size: 20px;
-    font-family: "Georgia";
-}
-
-header{
-    padding-left: ;
-    padding-right: ;
-    padding-bottom: 20px;
-    padding-top: 10px;
-    background-color: ;
-    color: ;
-    border-color: ;
-    border-style: ;
-    width: ;
-    text-align: center; 
-    border: 5px solid;
-}
-
-#logo {
-	height: 100px;
-	padding-left: 5%;
-    padding-top: 10px;
-}
-
-
-
 h1{
-    color: #;
-    font-size: ;
+    color: #ff82a9;
+    font-size: 40px;
+    text-align: center;
+    background-color: #7f95d1;
 }
 
 h2{
-    color: #;
+    color: #7f95d1;
+    font-size: 35px;
+    text-align: center;
+}
+
+
+body{
+    background-color: #f7f9f9;
+    font-size: 23px;
+    font-family: fantasy;
+    text-align: center;
+    width: 80%;
+    padding-left: 10%;
+}
+
+input{
+    width: 50%;
+    font-size: 23px;
+    background-color: #feefdd;
+    margin-top: 2%;
+    margin-left: 1%;
+    text-align: center;
+    border-radius: 8px;
+    font-family: fantasy; 
+}
+
+input[type=button]{
+	padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: None;
+    border: 3px solid #1b4965;
+    color: #1b4965;
+	background-color: #feefdd;
+}
+
+input[type=button]:hover{
+	 background-color: #ffbc42;
+}
+
+select{
+    width: 50%;
+    font-size: 23px;
+    background-color: #feefdd;
+    margin-top: 2%;
+    margin-left: 1%;
+    text-align: center;
+    border-radius: 8px;
+    font-family: fantasy; 
+}
+
+input[type=radio]{
+    background-color: #E3F6EB;
+    color: #487459;
+    text-align: center;
+    cursor: pointer;
+    height: 30px;
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+#user_info {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	border: 2px solid #000;
+	padding: 0px 10px 15px 15px;
+	max-width: 600px;
+}
+
+
+header{
+    padding-bottom: 20px;
+    top: 0;
+    width: 100%;
+    text-align: center; 
+    position: sticky;
+    height: auto%;
+    background-color: #7f95d1;
+    z-index: 1;
+}
+
+header #nav {
+    padding-bottom: 10px;
+}
+
+header #nav li {
+    list-style: none;
+    display: inline-flex;
+}
+
+#logo {
+    height: 100px;
+    padding-left: 5%;
+    padding-top: 10px;
+}
+
+h2{
     font-size: 25px;
-    
+    padding-top: 20px;   
 }
 
 a {
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	text-decoration: None;
-    border: 3px solid #000000;
-	color: #000000;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: None;
+	border: 3px solid #1b4965;
+    color: #1b4965;
+	background-color: #feefdd;
 }
 
 a:hover {
-	color: #FFFFFF;
-	background-color: #000000;
-	text-decoration: underline;
+    background-color: #ffbc42;
 }
 
 a.current {
-    color: #FFFFFF;
-	background-color: #000000;
-	text-decoration: none;
+    background-color: #ffbc42;
+    text-decoration: none;
 }
 
 a.logoBut {
@@ -80,25 +154,11 @@ a.logoBut {
     padding-left: 0px;
 }
 
-songlist{
-    text-align: center;
-    color: #B9E6FF;
-    background-color: #656565;
-    border-style: solid;
-    border-width: 3px;
-    border-color: #DB88F2;
-    margin-left:15%;
-    margin-right:15%;
-    margin-bottom: 2%;
-    margin-top: 2%;
-}
-heading,artist,title,release,genre{ 
-     display : block; 
-
-}
 image{
     padding-bottom: 2%;
+    padding-top: 10px;
 }
+
 name{
     font-size: 20px;
     color: #A1F497;
@@ -109,3 +169,12 @@ name{
     margin-top: 2%;
     
 }
+
+
+p{
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
